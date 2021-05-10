@@ -1,10 +1,15 @@
 #! /bin/bash
+if [ "$(uname -r)" = "5.0.0-23-generic" ]
+then
+  sudo apt-get update -yq
 
-sudo apt-get update -yq
+  sudo apt-get install linux-image-5.0.0-23-generic linux-headers-5.0.0-23-generic -yq
 
-sudo apt-get install linux-image-5.0.0-23-generic linux-headers-5.0.0-23-generic -yq
-
-sudo DEBIAN_FRONTEND=noninteractive  apt remove -y linux-headers-$(uname -r) \
-linux-image-$(uname -r) \
-linux-image-unsigned-$(uname -r)
-
+  sudo DEBIAN_FRONTEND=noninteractive  apt remove -y linux-headers-$(uname -r) \
+  linux-image-$(uname -r) \
+  linux-image-unsigned-$(uname -r)
+  
+  echo "Reboot to make change"
+else
+  echo "kernek version is up to date"
+fi
