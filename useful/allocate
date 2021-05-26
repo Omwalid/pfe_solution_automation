@@ -1,0 +1,21 @@
+#! /bin/bash
+
+temps=('VNF' 'NSD' 'NRM')
+
+for temp in "${temps[@]}"
+do
+
+id=$(printf "N" | nmctl create template -t $temp -n kube5gnfvo 2>/dev/null | grep "Template" | awk {'print $3'})
+templates+=${id}" "
+echo ${1}${temp}/
+
+echo $id
+nmctl onboard template $id -f ${1}${temp}/ 2>/dev/null
+
+done
+echo $templates
+nsst=$(nmctl create nsst -n kube5gnfvo $templates 2>/dev/null | tail -n1)
+
+echo $nsst
+
+echo "printf \"N\" | nmctl allocate nssi $(echo $nsst | awk {'print $3'})"
