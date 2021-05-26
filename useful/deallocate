@@ -1,0 +1,11 @@
+#! /bin/bash
+
+nmctl deallocate nssi $1 2>/dev/null
+
+nsst=$(nmctl get nsst 2>/dev/null | grep -A2 $2)
+
+nmctl delete template $(echo $nsst | awk {'print $4'}) 2>/dev/null
+nmctl delete template $(echo $nsst | awk {'print $5'}) 2>/dev/null
+nmctl delete template $(echo $nsst | awk {'print $6'}) 2>/dev/null
+
+nmctl delete nsst $2 2>/dev/null
